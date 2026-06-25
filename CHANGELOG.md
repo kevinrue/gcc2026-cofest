@@ -42,11 +42,27 @@ Skip over model training steps
 
 Pick a tool that isn't in Galaxy yet, e.g. [minibwa](https://github.com/lh3/minibwa)
 
-Activate my conda environment
 
-```bash
-miniforge_activate_base
+Install it
+
+```
+git clone git@github.com:lh3/minibwa.git
+cd minibwa
+make
 ```
 
-Install it using Conda
+Test it
 
+```
+./minibwa
+```
+
+Export the help pages and concatenate them into a single file
+
+```
+./minibwa --help > minibwa-help-pages.txt 2>&1
+./minibwa index --help >> minibwa-help-pages.txt 2>&1
+./minibwa map --help >> minibwa-help-pages.txt 2>&1
+./minibwa mem --help >> minibwa-help-pages.txt 2>&1
+./minibwa version >> minibwa-help-pages.txt 2>&1
+```
