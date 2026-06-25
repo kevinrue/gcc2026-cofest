@@ -1,0 +1,123 @@
+Usage: minibwt <command> <arguments>
+Commands:
+  General:
+    index      index reference FASTA
+    map        read alignment (recommended over mem)
+    mem        bwa-mem compatible CLI
+    version    print the version number
+  Separate indexing routines:
+    fa2bit     convert FASTA to the long-2bit format
+    genraw     generate BWT from pac with the BWT-SW algorithm
+    raw2bwt    recode bwtgen raw BWT
+    gensa      generate sampled SA from BWT
+    genbwt     generate BWT+SSA from long-2bit with libsais
+  Debugging:
+    bench      performance evaluation
+    fastmap    test seeding strategies
+    getref     get the reference genome from .l2b
+  Help:
+    --help     print this help message
+[M::main] Version: 0.2-r386-dirty
+[M::main] CMD: ./minibwa index --help
+[M::main] Real time: 0.000 sec; CPU: 0.006 sec; Peak RSS: 0.008 GB
+Usage: minibwa index [options] <in.fasta> [out.prefix]
+Options:
+  -s INT    random seed for amibiguous bases [11]
+  -u INT    SA sample rate at 1/(1<<INT) [4]
+  -l        low-memory GPL'd algorithm for BWT construction
+  -b NUM    block size (effective with -l) [10m]
+  --meth    build FM-index for BS-seq mapping
+  --help    print this help message
+[M::main] Version: 0.2-r386-dirty
+[M::main] CMD: ./minibwa map --help
+[M::main] Real time: 0.000 sec; CPU: 0.006 sec; Peak RSS: 0.008 GB
+Usage: minibwa map [options] <in.idx> <in.fastq>
+Options:
+  Common:
+    -f               output PAF (SAM by default)
+    -t INT           number of worker threads [1]
+    -l NUM           treat reads <NUM as short reads in the default adaptive mode [325]
+    -R STR           SAM read group line in a format like '@RG\tID:foo\tSM:bar' []
+    -b STR           output a base alignment tag: cs, ds or MD []
+    --hic            map Hi-C reads; equivalent to option -5P
+    --meth           map *directional* bisulfite sequencing reads
+  Mapping:
+    -k INT           min seed length [19]
+    -c NUM           max seed occurrences [250]
+    -g NUM           max gap size, controlling extension and chain breaking [100]
+    -w NUM           bandwidth [100]
+    -W NUM           long bandwidth (for long reads or the adaptive mode) [20000]
+    -m INT           min chaining score [25]
+    -p FLOAT         min secondary-to-primary score ratio [0.5]
+    -N INT           retain at most INT secondary alignments [50]
+    --chain-only     perform chaining only without base alignment
+    -x STR           preset (sr, lr or adap for mixed short/long reads) [adap]
+  Alignment:
+    -A INT           matching score [2]
+    -B INT           mismatching openalty [8]
+    -O INT1[,INT2]   gap open penalty [12,23]
+    -E INT1[,INT2]   gap extension penalty [2,1]
+    -s INT           suppress alignment with DP score lower than INT*{-A} [30]
+  Paired-end:
+    -P               skip pairing and mate resuce
+    --rescue=INT     mate rescue for up to INT candidates; 0 to skip rescue [10]
+  Input/Output:
+    -o FILE          output file name [stdout]
+    -u               don't output unmapped reads
+    --outn=INT       output up to INT secondary alignments [0]
+    -y               copy FASTA/Q comments to output
+    -Y               use soft clipping for supplementary alignments
+    -H STR           if STR starts with @, insert to header; or insert lines in file STR []
+    -5               take the alignment with the smallest query position as primary
+    -K NUM1[,NUM2]   process NUM1-NUM2 bp of query sequences in a batch [100m,1g]
+    --version        print version number
+    --help           print this help message
+Usage: minibwa mem [options] <in.idx> <in.fastq>
+Options:
+  Algorithm:
+    -t INT         number of threads [1]
+    -k INT         minimum seed length [19]
+    -w NUM         bandwidth [100]
+    *d INT         off-diagonal X-dropoff []
+    *r FLOAT       inside seed ratio []
+    *y INT         seed occurrence for the 3rd round seeding []
+    -c NUM         max seed occurrences [250]
+    -D FLOAT       mask level [0.5]
+    *W INT         discard a chain if seeded bases shorter than INT []
+    -m INT         mate rescue for up to INT candidates; 0 to skip rescue [10]
+    -S             skip mate rescue
+    -P             skip pairing
+  Scoring:
+    *A INT         matching score []
+    *B INT         mismatching penalty []
+    *O INT         gap open penalty []
+    *E INT         gap extension penalty []
+    *L INT         end bonus []
+    *U INT         penalty for an unpaired read pair []
+    *x STR         preset []
+  Input/output:
+    *p             smart pairing
+    -R STR         SAM read group line in a format like '@RG	ID:foo	SM:bar' []
+    -H STR         if STR starts with @, insert to header; or insert lines in file STR []
+    -o FILE        output file name [stdout]
+    *j             treat ALT contigs as part of the primary assembly
+    -5             take the alignment with the smallest query position as primary
+    *q             don't modify mapQ of supplementary alignments
+    *K NUM         batch size []
+    -v INT         verbose level: 1=error, 2=warning, 3=message, 4+=debugging [3]
+    -T INT         suppress alignment with DP score lower than INT*{-A} [30]
+    *h INT         max secondary alignments at the XA tag [5]
+    *z FLOAT       ignore in XA is score < FLOAT*bestScore [0.8]
+    *a             output all alignments
+    -C             copy FASTA/Q comments to output
+    *V             output the reference FASTA header in the XR tag
+    -Y             use soft clipping for supplementary alignments
+    *M             mark shorter split hits as secondary
+    -I FLOAT[,FLOAT[,INT[,INT]]]
+                   mean, stddev, max and min of isize distribution [inferred]
+    *u             output XB instead of XA
+Notes:
+  - "minibwa mem" aims to match the "bwa mem" command-line interface
+  - '*' options are ignored as they are missing or incompatible with minibwa
+  - minibwa and bwa-mem may output different alignments
+0.2-r386-dirty

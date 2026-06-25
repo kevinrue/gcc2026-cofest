@@ -1,0 +1,33 @@
+<tool id="minibwa" name="Minibwa" version="0.1.0" profile="25.0">
+    <description>Minimally wrapped Minibwa tool</description>
+    <requirements>
+        <requirement type="package" version="0.2-r386-dirty">minibwa</requirement>
+    </requirements>
+    <command detect_errors="aggressive"><![CDATA[
+        $tool_command $in1 $out
+    ]]></command>
+    <inputs>
+        <param name="tool_command" type="select" label="Command">
+            <option value="index">Index Reference FASTA</option>
+            <option value="map">Read Alignment</option>
+            <option value="mem">BWA-MEM Compatible CLI</option>
+        </param>
+        <param name="in1" type="data" format="fasta,fastq" label="Input File"/>
+        <param name="out" type="data" format="sam,bam" label="Output File"/>
+    </inputs>
+    <outputs>
+        <output name="out" type="data" format="sam,bam" label="Alignment Output"/>
+    </outputs>
+    <tests>
+        <test expect_num_outputs="1">
+            <param name="tool_command" value="map"/>
+            <param name="in1" value="sample.fastq"/>
+            <output name="out" file="sample.sam"/>
+        </test>
+    </tests>
+    <help format="markdown"><![CDATA[
+        Minibwa is a versatile tool for read alignment and BWT construction.
+        Use the 'index' command to build an index from a FASTA file.
+        Use the 'map' or 'mem' commands to align reads against the index.
+    ]]></help>
+</tool>

@@ -60,9 +60,56 @@ Test it
 Export the help pages and concatenate them into a single file
 
 ```
-./minibwa --help > minibwa-help-pages.txt 2>&1
-./minibwa index --help >> minibwa-help-pages.txt 2>&1
-./minibwa map --help >> minibwa-help-pages.txt 2>&1
-./minibwa mem --help >> minibwa-help-pages.txt 2>&1
-./minibwa version >> minibwa-help-pages.txt 2>&1
+./minibwa --help > ../minibwa-help-pages.txt 2>&1
+./minibwa index --help >> ../minibwa-help-pages.txt 2>&1
+./minibwa map --help >> ../minibwa-help-pages.txt 2>&1
+./minibwa mem --help >> ../minibwa-help-pages.txt 2>&1
+./minibwa version >> ../minibwa-help-pages.txt 2>&1
+```
+
+Get out of the minibwa directory (should have done that earlier) and run the Galaxy toolsmith:
+
+```bash
+cd ..
+gtsm generate-wrapper \
+  --tool-name minibwa \
+  --help-text-file minibwa/minibwa-help-pages.txt \
+  --provider ollama \
+  --model gtsm-tools-iuc-qwen25-7b-q4 \
+  --output minibwa.xml
+```
+
+```
+RuntimeError: Ollama request failed for http://127.0.0.1:11434/api/generate: [Errno 61] Connection refused. Ensure Ollama is running and reachable, or set GTSM_OLLAMA_BASE_URL to the correct server.
+```
+
+Install Ollama from <https://ollama.com/>
+
+Open web browser at <127.0.0.1:11434>. The page says "Ollama is running".
+
+Again:
+
+```bash
+gtsm generate-wrapper \
+  --tool-name minibwa \
+  --help-text-file minibwa/minibwa-help-pages.txt \
+  --provider ollama \
+  --model gtsm-tools-iuc-qwen25-7b-q4 \
+  --output minibwa.xml
+```
+
+```
+RuntimeError: Ollama request failed HTTP 404: {"error":"model 'gtsm-tools-iuc-qwen25-7b-q4' not found"}
+```
+
+Following Claude's advice:
+
+```
+ollama pull qwen2.5-coder:7b
+gtsm generate-wrapper \
+  --tool-name minibwa \
+  --help-text-file minibwa/minibwa-help-pages.txt \
+  --provider ollama \
+  --model qwen2.5-coder:7b \
+  --output minibwa.xml
 ```
