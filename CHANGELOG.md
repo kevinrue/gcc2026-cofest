@@ -113,3 +113,40 @@ gtsm generate-wrapper \
   --model qwen2.5-coder:7b \
   --output minibwa.xml
 ```
+
+Terrible XML file.
+
+Instead, train a model.
+
+```bash
+gtsm list-train-profiles
+```
+
+```bash
+gtsm train --profile agentic-devstral-24b --corpus-jsonl .gtsm-cache/datasets/tools-iuc-corpus.jsonl
+```
+
+Error
+
+```
+HF SFT backend requires optional training dependencies: datasets, transformers, peft, trl.
+```
+
+```bash
+pip install datasets transformers peft trl
+```
+
+```bash
+ollama pull agentic-devstral-24b
+gtsm train --profile agentic-devstral-24b --corpus-jsonl .gtsm-cache/datasets/tools-iuc-corpus.jsonl
+```
+
+```bash
+export GTSM_OPENAI_API_KEY="KEY_GOES_HERE"
+gtsm generate-wrapper \
+  --tool-name minibwa \
+  --help-text-file minibwa-help-pages.txt \
+  --provider openai \
+  --model gpt-4o-mini \
+  --output minibwa-anthropic-claude-sonnet-4-6.xml
+```
