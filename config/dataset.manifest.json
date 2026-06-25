@@ -1,0 +1,17 @@
+{
+  "dataset_id": "bootstrap-dataset",
+  "schema_version": "0.1.0",
+  "created_at": "2026-06-25T11:56:11.535613+00:00",
+  "sources": [
+    {
+      "name": "tools-iuc",
+      "url": "https://github.com/galaxyproject/tools-iuc",
+      "ref": "HEAD"
+    }
+  ],
+  "transforms": [
+    "bootstrap"
+  ],
+  "includes_tests": true,
+  "includes_datatype_report": true
+}

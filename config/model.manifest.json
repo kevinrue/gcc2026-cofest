@@ -1,0 +1,15 @@
+{
+  "variant_id": "bootstrap-variant",
+  "schema_version": "0.1.0",
+  "created_at": "2026-06-25T11:56:11.537795+00:00",
+  "base_model": "unset",
+  "quantization": "unset",
+  "training_dataset_id": "bootstrap-dataset",
+  "provider": "unset",
+  "skills_profile": "unset",
+  "backend": "auto",
+  "artifact_dir": "",
+  "export_quantizations": [],
+  "ollama_model_name": "",
+  "ollama_modelfile_path": ""
+}

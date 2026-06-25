@@ -1,0 +1,11 @@
+{
+  "runtime": {
+    "backend": "auto",
+    "max_workers": 4,
+    "retry_limit": 5
+  },
+  "providers": {
+    "local_enabled": true,
+    "external_enabled": true
+  }
+}
