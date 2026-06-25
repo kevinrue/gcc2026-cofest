@@ -21,3 +21,7 @@ gtsm init-workspace
 ```
 gtsm sync-tools-iuc --ref main
 ```
+
+gtsm sync-galaxy-skills --ref main
+
+gtsm sync-galaxy-xsd --ref dev
