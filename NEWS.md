@@ -7,3 +7,17 @@ Install https://www.piwheels.org/project/galaxy-toolsmith/
 ```bash
 pip3 install galaxy-toolsmith
 ```
+
+[Quick start](https://pypi.org/project/galaxy-toolsmith/)
+
+```
+gtsm doctor
+```
+
+```
+gtsm init-workspace
+```
+
+```
+gtsm sync-tools-iuc --ref main
+```
